@@ -9,8 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const port = process.env.PORT || 3000;
-const GOOGLE_CLIENT_ID ="749487444959-v9pcppnc65ad06mm73c6e377aogdjmm8.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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"
+
 
 
 const app = express()
@@ -21,7 +20,7 @@ app.use('/api',userRouter);
 
 // setup session
 app.use(session({
-      secret:"YOUR SECRET KEY",
+      secret:process.env.GOOGLE_CLIENT_SECRET,
       resave:false,
       saveUninitialized:true
   }))
@@ -32,8 +31,8 @@ app.use(session({
 
   passport.use(
       new OAuth2Strategy({
-          clientID:GOOGLE_CLIENT_ID,
-          clientSecret:GOOGLE_CLIENT_SECRET,
+          clientID: process.env.GOOGLE_CLIENT_ID,
+          clientSecret:process.env.GOOGLE_CLIENT_SECRET,
           callbackURL:"/auth/google/callback",
           scope:["profile","email"]
       },
